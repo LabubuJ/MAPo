@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="MAPo : Motion-Aware Partitioning of Deformable 3D Gaussian Splatting for High-Fidelity Dynamic Scene Reconstruction.">
+  <meta name="keywords" content="Dynamic Scene Reconstruction, 3D Gaussian Splatting, Dynamic Gaussian Splatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MAPo : Motion-Aware Partitioning of Deformable 3D Gaussian Splatting for High-Fidelity Dynamic Scene Reconstruction</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/MAPo/MAPo_icon.png">
+  <link rel="stylesheet" href="./static/css/video-compare.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/video-compare.js"></script>
+  <style>
+  .gradient-text {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b, #ffcc70);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+  }
+  </style>
+</head>
+<body>
+
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <!-- <h1 class="title is-1 publication-title" style="display: flex; align-items: baseline;">
+            <img src="./static/images/tryon/tryon_icon_2.png" alt="MagicTryOn Icon" style="width: 2em; height: 2em; vertical-align: baseline; margin-right: -1.9em;">
+            MagicTryOn: Harnessing Diffusion Transformer for Garment-Preserving Video Virtual Try-on
+          </h1> -->
+          <h1 class="title is-1 publication-title">
+            <span class="gradient-text">MAPo:</span> Motion-Aware Partitioning of Deformable 3D Gaussian Splatting for High-Fidelity Dynamic Scene Reconstruction
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a>Anonymous AAAI Submission</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div>
+  </div>
+</section> -->
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_salmon_frag1/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve">
+          <video poster="" id="steve" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_salmon_frag2/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve">
+          <video poster="" id="steve" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_salmon_frag3/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!-- <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_salmon_frag4/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div> -->
+        <div class="item item-shiba">
+          <video poster="" id="shiba" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_steak/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/sear_steak/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/cut_roasted_beef/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/cook_spinach/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!-- <div class="item item-mask">
+          <video poster="" id="mask" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/coffee_martini/test.mp4"
+                    type="video/mp4">
+          </video>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_salmon_frag1/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve">
+          <video poster="" id="steve" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_salmon_frag2/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve">
+          <video poster="" id="steve" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_salmon_frag3/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!-- <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_salmon_frag4/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div> -->
+        <div class="item item-shiba">
+          <video poster="" id="shiba" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/flame_steak/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/sear_steak/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/cut_roasted_beef/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/cook_spinach/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!-- <div class="item item-mask">
+          <video poster="" id="mask" controls muted loop playsinline height="100%">
+            <source src="./static/videos/n3dv/ours/coffee_martini/video.mp4"
+                    type="video/mp4">
+          </video>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small comparison-section">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Video Contrast Demonstration</h2>
+      
+      <!-- 英文说明 -->
+      <div class="content has-text-centered" style="margin-bottom: 2rem;">
+        <h4 class="is-4 has-text-weight-bold" style="color: #363636; margin-bottom: 0.5rem;">Interactive Comparison Slider</h4>
+        <p class="is-5 has-text-weight-semibold" style="color: #4a4a4a; margin-bottom: 1.5rem;">Drag to Compare</p>
+        
+        <div style="max-width: 800px; margin: 0 auto;">
+          <p style="color: #666; margin-bottom: 1rem;">
+            Slide the center handle to compare our method (left) with alternative methods (right).
+          </p>
+          
+          <div class="columns is-centered is-mobile" style="margin-bottom: 1.5rem;">
+            <div class="column is-narrow">
+              <p style="color: #666;">
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                Drag left: View results from our approach
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <p style="color: #666;">
+                <span class="icon">
+                  <i class="fas fa-arrow-right"></i>
+                </span>
+                Drag right: View results from the comparison method
+              </p>
+            </div>
+          </div>
+
+          <h5 class="is-5 has-text-weight-semibold" style="color: #4a4a4a; margin-bottom: 1rem;">Video Playback Controls</h5>
+          <div class="columns is-multiline is-centered" style="max-width: 600px; margin: 0 auto;">
+            <div class="column is-narrow">
+              <p style="color: #666;">
+                <span class="icon">
+                  <i class="fas fa-play"></i>
+                </span>
+                Hover to play: Videos autoplay when the mouse hovers over them
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <p style="color: #666;">
+                <span class="icon">
+                  <i class="fas fa-pause"></i>
+                </span>
+                Pause while dragging: Playback pauses during slider interaction
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <p style="color: #666;">
+                <span class="icon">
+                  <i class="fas fa-stop"></i>
+                </span>
+                Pause on exit: Videos stop when the mouse leaves the container
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 第一行 2个视频 -->
+      <div class="columns is-centered is-multiline">
+        <div class="column is-5">
+          <div class="video-compare-container" style="width: 100%; height: auto;">
+            <div class="video-wrapper" style="width: 100%; height: 100%; position: relative;">
+              <div class="video-compare" style="width: 100%; height: 100%;">
+                <div class="video-before" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/n3dv/ours/flame_salmon_frag3/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-before">Ours</div>
+                </div>
+                <div class="video-after" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/n3dv/E-D3DGS/flame_salmon_frag3/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-after">E-D3DGS</div>
+                </div>
+              </div>
+              <div class="slider"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-5">
+          <div class="video-compare-container" style="width: 100%; height: auto;">
+            <div class="video-wrapper" style="width: 100%; height: 100%; position: relative;">
+              <div class="video-compare" style="width: 100%; height: 100%;">
+                <div class="video-before" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/n3dv/ours/cook_spinach/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-before">Ours</div>
+                </div>
+                <div class="video-after" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/n3dv/4DGaussians/cook_spinach/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-after">4DGaussians</div>
+                </div>
+              </div>
+              <div class="slider"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 第二行 2个视频 -->
+        <div class="column is-5">
+          <div class="video-compare-container" style="width: 100%; height: auto;">
+            <div class="video-wrapper" style="width: 100%; height: 100%; position: relative;">
+              <div class="video-compare" style="width: 100%; height: 100%;">
+                <div class="video-before" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/n3dv/ours/flame_salmon_frag2/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-before">Ours</div>
+                </div>
+                <div class="video-after" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/n3dv/Ex4DGS/flame_salmon_frag2/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-after">Ex4DGS</div>
+                </div>
+              </div>
+              <div class="slider"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-5">
+          <div class="video-compare-container" style="width: 100%; height: auto;">
+            <div class="video-wrapper" style="width: 100%; height: 100%; position: relative;">
+              <div class="video-compare" style="width: 100%; height: 100%;">
+                <div class="video-before" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/n3dv/ours/flame_steak/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-before">Ours</div>
+                </div>
+                <div class="video-after" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/n3dv/Swift4D/flame_steak/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-after">Swift4D</div>
+                </div>
+              </div>
+              <div class="slider"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 第三行 2个视频 -->
+        <div class="column is-5">
+          <div class="video-compare-container" style="width: 100%; height: auto;">
+            <div class="video-wrapper" style="width: 100%; height: 100%; position: relative;">
+              <div class="video-compare" style="width: 100%; height: 100%;">
+                <div class="video-before" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/meetroom/ours/vrheadset/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-before">Ours</div>
+                </div>
+                <div class="video-after" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/meetroom/E-D3DGS/vrheadset/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-after">E-D3DGS</div>
+                </div>
+              </div>
+              <div class="slider"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-5">
+          <div class="video-compare-container" style="width: 100%; height: auto;">
+            <div class="video-wrapper" style="width: 100%; height: 100%; position: relative;">
+              <div class="video-compare" style="width: 100%; height: 100%;">
+                <div class="video-before" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/meetroom/ours/discussion/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-before">Ours</div>
+                </div>
+                <div class="video-after" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/meetroom/Swift4D/discussion/test.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-after">Swift4D</div>
+                </div>
+              </div>
+              <div class="slider"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div style="text-align: center;">
+      <h2 class="title is-3">Experiments</h2>
+      <br>
+  </div>
+
+  <!-- Split Level Show -->
+  <div class="container" style="margin-top: 2rem;">
+    <h3 class="title is-4">Split Level Visualization</h3>
+    <p class="subtitle is-6 has-text-centered" style="margin-bottom: 1.5rem; color: #666;">
+      Split Level k represents all 3DGs which split level = k.
+    </p>
+    <div class="columns is-multiline is-centered">
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/time_range_show/full_render.png" alt="Full Render">
+          <figcaption class="has-text-centered">Full Rendering</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/time_range_show/static.png" alt="Static">
+          <figcaption class="has-text-centered">Static</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/time_range_show/time_range_0.0_299.0.png" alt="Time Range 0.0-299.0">
+          <figcaption class="has-text-centered">Split Level 0</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/time_range_show/time_range_149.5_299.0.png" alt="Time Range 149.5-299.0">
+          <figcaption class="has-text-centered">Split Level 1</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/time_range_show/time_range_224.25_299.0.png" alt="Time Range 224.25-261.625">
+          <figcaption class="has-text-centered">Split Level 2</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/time_range_show/time_range_224.25_261.625.png" alt="Time Range 224.25-299.0">
+          <figcaption class="has-text-centered">Split Level 3</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Split Level + Show -->
+  <div class="container">
+    <h3 class="title is-4">Split Level k+  Visualization</h3>
+    <p class="subtitle is-6 has-text-centered" style="margin-bottom: 1.5rem; color: #666;">
+      Split Level k+ represents all 3DGs which split level >= k.
+    </p>
+    <div class="columns is-multiline is-centered">
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/split_level_show/full_render.png" alt="Full Render">
+          <figcaption class="has-text-centered">Full Rendering</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/split_level_show/static.png" alt="Static">
+          <figcaption class="has-text-centered">Static</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/split_level_show/split_level_0+.png" alt="Split Level 0+">
+          <figcaption class="has-text-centered">Split Level 0+</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/split_level_show/split_level_1+.png" alt="Split Level 1+">
+          <figcaption class="has-text-centered">Split Level 1+</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/split_level_show/split_level_2+.png" alt="Split Level 2+">
+          <figcaption class="has-text-centered">Split Level 2+</figcaption>
+        </figure>
+      </div>
+      <div class="column is-2">
+        <figure class="image">
+          <img src="./static/images/MAPo/method_show/flame_salmon_frag4/260/split_level_show/split_level_3+.png" alt="Split Level 3+">
+          <figcaption class="has-text-centered">Split Level 3+</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Static Scene Visualization -->
+  <div class="container" style="margin-top: 2rem;">
+    <h3 class="title is-4">Static Scene Visualization</h3>
+    <div class="columns is-multiline is-centered">
+      <!-- Flame Salmon -->
+      <div class="column is-12">
+        <div class="columns is-centered">
+          <div class="column is-6">
+            <figure class="image">
+              <img src="./static/images/MAPo/method_show/static_visualization/flame_salmon_frag4/full_render.png" alt="Flame Salmon Full Render">
+              <figcaption class="has-text-centered">Flame Salmon (Full Rendering)</figcaption>
+            </figure>
+          </div>
+          <div class="column is-6">
+            <figure class="image">
+              <img src="./static/images/MAPo/method_show/static_visualization/flame_salmon_frag4/static.png" alt="Flame Salmon Static">
+              <figcaption class="has-text-centered">Flame Salmon (Static)</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Cut Roasted Beef -->
+      <div class="column is-12">
+        <div class="columns is-centered">
+          <div class="column is-6">
+            <figure class="image">
+              <img src="./static/images/MAPo/method_show/static_visualization/cut_roasted_beef/full_render.png" alt="Cut Roasted Beef Full Render">
+              <figcaption class="has-text-centered">Cut Roasted Beef (Full Rendering)</figcaption>
+            </figure>
+          </div>
+          <div class="column is-6">
+            <figure class="image">
+              <img src="./static/images/MAPo/method_show/static_visualization/cut_roasted_beef/static.png" alt="Cut Roasted Beef Static">
+              <figcaption class="has-text-centered">Cut Roasted Beef (Static)</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <!-- Discussion -->
+      <div class="column is-12">
+        <div class="columns is-centered">
+          <div class="column is-6">
+            <figure class="image">
+              <img src="./static/images/MAPo/method_show/static_visualization/discussion/full_render.png" alt="Discussion Full Render">
+              <figcaption class="has-text-centered">Discussion (Full Rendering)</figcaption>
+            </figure>
+          </div>
+          <div class="column is-6">
+            <figure class="image">
+              <img src="./static/images/MAPo/method_show/static_visualization/discussion/static.png" alt="Discussion Static">
+              <figcaption class="has-text-centered">Discussion (Static)</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Sequence Viewer -->
+  <div class="container image-sequence-container">
+    <h3 class="title is-4">Ablation Study About Jitter (Please pay attention to the red box of M1.)</h3>
+    <style>
+      /* 为slider添加特殊区间样式 */
+      #sequence-slider {
+        background: linear-gradient(to right,
+          #dbdbdb 0%,
+          #dbdbdb calc((74 - 73) / (76 - 73) * 100%),
+          #ff7675 calc((74 - 73) / (76 - 73) * 100%),
+          #ff7675 calc((75 - 73) / (76 - 73) * 100%),
+          #dbdbdb calc((75 - 73) / (76 - 73) * 100%),
+          #dbdbdb 100%
+        );
+      }
+      
+      /* 确保滑块样式正常显示 */
+      #sequence-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #3273dc;
+        cursor: pointer;
+      }
+      
+      #sequence-slider::-moz-range-thumb {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #3273dc;
+        cursor: pointer;
+      }
+    </style>
+    <div class="image-sequence-viewer">
+      <div class="sequence-image-container">
+        <div class="sequence-title">M1 : Model Before
+           Add Cross-Frame Consistency Loss(With Jitter)</div>
+        <div class="sequence-image-wrapper">
+          <img id="jitter-image" src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/processed/bbox/jitter/00073.png" alt="Jitter">
+        </div>
+      </div>
+      <div class="sequence-image-container">
+        <div class="sequence-title">M2 : M1 + L_current</div>
+        <div class="sequence-image-wrapper">
+          <img id="+cur-image" src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/processed/bbox/+cur/00073.png" alt="Current">
+        </div>
+      </div>
+      <div class="sequence-image-container">
+        <div class="sequence-title">M3(Full Model) : M2 + L_gt</div>
+        <div class="sequence-image-wrapper">
+          <img id="dejitter_3-image" src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/processed/bbox/dejitter_3/00073.png" alt="Dejitter">
+        </div>
+      </div>
+    </div>
+    <input id="sequence-slider" 
+           class="slider is-fullwidth" 
+           step="1" 
+           min="73" 
+           max="76" 
+           value="73" 
+           type="range">
+    <div class="content has-text-centered" style="margin-top: 1rem; margin-bottom: 2rem;">
+      <h5 class="is-5 has-text-weight-semibold" style="color: #4a4a4a; margin-bottom: 1rem;">Frame Navigation</h5>
+      <div style="max-width: 600px; margin: 0 auto;">
+        <p style="color: #666;">
+          <span class="icon">
+            <i class="fas fa-sliders-h"></i>
+          </span>
+          Drag the slider to navigate through frames (73-76)
+        </p>
+        <p class="is-size-7" style="color: #888; margin-top: 0.5rem;">
+          <span class="icon is-small">
+            <i class="fas fa-info-circle"></i>
+          </span>
+          Pay special attention to the red box region of M1 to observe the jitter effect
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Qualitative Comparisons -->
+  <h3 class="title is-4">More Qualitative Comparisons</h3> 
+  <p class="subtitle is-6 has-text-centered" style="margin-bottom: 1.5rem; color: #666;">
+    Qualitative comparisons on the MeetRoom and N3DV dataset.
+  </p>
+  <img src="./static/images/MAPo/quanlitative_cmp.png" alt="Description of image" style="max-width: 100%; height: auto;">
+
+  <!-- <h3 class="title is-4">More Quatitative Comparisons</h3> 
+  <p class="subtitle is-6 has-text-centered" style="margin-bottom: 1.5rem; color: #666;">
+    Quatitative comparisons on the MeetRoom and N3DV dataset.
+  </p>
+  <img src="./static/images/MAPo/quanlitative_cmp.png" alt="Description of image" style="max-width: 100%; height: auto;"> -->
+
+
+</div>
+
+
+
+</section>
+
+
+
+</body>
+</html>
