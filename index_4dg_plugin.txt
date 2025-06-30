@@ -1,0 +1,55 @@
+<section class="hero is-light is-small comparison-section">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Our Method integrating 4DGaussians vs 4DGaussians</h2>
+      
+      <!-- 第一行 2个视频 -->
+      <div class="columns is-centered is-multiline">
+        <div class="column is-5">
+          <div class="video-compare-container" style="width: 100%; height: auto;">
+            <div class="video-wrapper" style="width: 100%; height: 100%; position: relative;">
+              <div class="video-compare" style="width: 100%; height: 100%;">
+                <div class="video-before" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/4DGaussians_framework/frag3/ours+4DGaussians.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-before">Ours + 4DGaussians</div>
+                </div>
+                <div class="video-after" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/4DGaussians_framework/frag3/4DGaussians.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-after">4DGaussians</div>
+                </div>
+              </div>
+              <div class="slider"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-5">
+          <div class="video-compare-container" style="width: 100%; height: auto;">
+            <div class="video-wrapper" style="width: 100%; height: 100%; position: relative;">
+              <div class="video-compare" style="width: 100%; height: 100%;">
+                <div class="video-before" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/4DGaussians_framework/coffee/ours+4DGaussians.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-before">Ours + 4DGaussians</div>
+                </div>
+                <div class="video-after" style="width: 100%; height: 100%;">
+                  <video muted loop playsinline preload="auto" style="width: 100%; height: auto; display: block;">
+                    <source src="./static/videos/4DGaussians_framework/coffee/4DGaussians.mp4" type="video/mp4">
+                  </video>
+                  <div class="video-label label-after">4DGaussians</div>
+                </div>
+              </div>
+              <div class="slider"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
