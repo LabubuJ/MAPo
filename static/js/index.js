@@ -66,13 +66,14 @@ $(document).ready(function() {
 
     var defaultCarousels = bulmaCarousel.attach('#results-carousel', defaultCarouselOptions);
 
-    preloadInterpolationImages();
+    // 预加载 sequence images
+    preloadSequenceImages();
 
-    $('#interpolation-slider').on('input', function(event) {
-      setInterpolationImage(this.value);
-    });
-    setInterpolationImage(0);
-    $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
+    // $('#interpolation-slider').on('input', function(event) {
+    //   setInterpolationImage(this.value);
+    // });
+    // setInterpolationImage(0);
+    // $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
 
     bulmaSlider.attach();
 
