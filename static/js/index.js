@@ -27,7 +27,7 @@ function updateSequenceImages(value) {
   modules.forEach(module => {
     const img = document.getElementById(`${module}-image`);
     if (img) {
-      img.src = `./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/processed/bbox/${module}/${paddedNumber}.png`;
+      img.src = `./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/processed/bbox/${module}/tinified/${paddedNumber}.png`;
     }
   });
 }
