@@ -67,7 +67,7 @@ $(document).ready(function() {
     var defaultCarousels = bulmaCarousel.attach('#results-carousel', defaultCarouselOptions);
 
     // 预加载 sequence images
-    preloadSequenceImages();
+    // preloadSequenceImages();
 
     // $('#interpolation-slider').on('input', function(event) {
     //   setInterpolationImage(this.value);

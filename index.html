@@ -510,83 +510,59 @@
   <div class="container image-sequence-container">
     <h3 class="title is-4">Ablation Study About Jitter (Please pay attention to the red box of M1.)</h3>
     <p class="subtitle is-6 has-text-centered" style="margin-bottom: 1.5rem; color: #666;">
-      If the images below fail to display due to network issues, please refer to Figure 4 in our appendix.
+      If the images below fail to display due to network issues, please refer to Figure 4 in our appendix. The images below correspond to frames 73-76.
     </p>
-    <style>
-      /* 为slider添加特殊区间样式 */
-      #sequence-slider {
-        background: linear-gradient(to right,
-          #dbdbdb 0%,
-          #dbdbdb calc((74 - 73) / (76 - 73) * 100%),
-          #ff7675 calc((74 - 73) / (76 - 73) * 100%),
-          #ff7675 calc((75 - 73) / (76 - 73) * 100%),
-          #dbdbdb calc((75 - 73) / (76 - 73) * 100%),
-          #dbdbdb 100%
-        );
-      }
-      
-      /* 确保滑块样式正常显示 */
-      #sequence-slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background: #3273dc;
-        cursor: pointer;
-      }
-      
-      #sequence-slider::-moz-range-thumb {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background: #3273dc;
-        cursor: pointer;
-      }
-    </style>
-    <div class="image-sequence-viewer">
-      <div class="sequence-image-container">
-        <div class="sequence-title">M1 : Model Before
-           Add Cross-Frame Consistency Loss(With Jitter)</div>
-        <div class="sequence-image-wrapper">
-          <img id="jitter-image" src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/processed/bbox/jitter/tinified/00073.png" alt="Jitter">
-        </div>
+
+    <!-- 
+      新布局说明:
+      - 外层 'columns' 用于将标题和图片行分开。'is-vcentered' 确保它们垂直对齐。
+      - 内层 'columns' 使用 'is-gapless' 来确保图片之间没有缝隙。
+      - 我们移除了行与行之间的大间距。
+      - 为保持布局整洁，已移除图片下方的 'Frame XX' 文字 (figcaption)。
+    -->
+
+    <!-- M1 Row -->
+    <div class="columns is-vcentered" style="margin-bottom: 0.5rem;">
+      <div class="column is-3 has-text-centered">
+        <h5 class="title is-5 has-text-weight-semibold">M1: With Jitter</h5>
       </div>
-      <div class="sequence-image-container">
-        <div class="sequence-title">M2 : M1 + L_current</div>
-        <div class="sequence-image-wrapper">
-          <img id="+cur-image" src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/processed/bbox/+cur/tinified/00073.png" alt="Current">
-        </div>
-      </div>
-      <div class="sequence-image-container">
-        <div class="sequence-title">M3(Full Model) : M2 + L_gt</div>
-        <div class="sequence-image-wrapper">
-          <img id="dejitter_3-image" src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/processed/bbox/dejitter_3/tinified/00073.png" alt="Dejitter">
+      <div class="column is-9">
+        <div class="columns is-gapless">
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/jitter_00073.png" alt="Jitter Frame 73"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/jitter_00074.png" alt="Jitter Frame 74"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/jitter_00075.png" alt="Jitter Frame 75"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/jitter_00076.png" alt="Jitter Frame 76"></div>
         </div>
       </div>
     </div>
-    <input id="sequence-slider" 
-           class="slider is-fullwidth" 
-           step="1" 
-           min="73" 
-           max="76" 
-           value="73" 
-           type="range">
-    <div class="content has-text-centered" style="margin-top: 1rem; margin-bottom: 2rem;">
-      <h5 class="is-5 has-text-weight-semibold" style="color: #4a4a4a; margin-bottom: 1rem;">Frame Navigation</h5>
-      <div style="max-width: 600px; margin: 0 auto;">
-        <p style="color: #666;">
-          <span class="icon">
-            <i class="fas fa-sliders-h"></i>
-          </span>
-          Drag the slider to navigate through frames (73-76)
-        </p>
-        <p class="is-size-7" style="color: #888; margin-top: 0.5rem;">
-          <span class="icon is-small">
-            <i class="fas fa-info-circle"></i>
-          </span>
-          Pay special attention to the red box region of M1 to observe the jitter effect
-        </p>
+
+    <!-- M2 Row -->
+    <div class="columns is-vcentered" style="margin-bottom: 0.5rem;">
+      <div class="column is-3 has-text-centered">
+        <h5 class="title is-5 has-text-weight-semibold">M2: M1 + L_current</h5>
+      </div>
+      <div class="column is-9">
+        <div class="columns is-gapless">
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/cur_00073.png" alt="+Cur Frame 73"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/cur_00074.png" alt="+Cur Frame 74"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/cur_00075.png" alt="+Cur Frame 75"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/cur_00076.png" alt="+Cur Frame 76"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- M3 Row -->
+    <div class="columns is-vcentered">
+      <div class="column is-3 has-text-centered">
+        <h5 class="title is-5 has-text-weight-semibold">M3: Full Model</h5>
+      </div>
+      <div class="column is-9">
+        <div class="columns is-gapless">
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/dejitter_00073.png" alt="Dejitter Frame 73"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/dejitter_00074.png" alt="Dejitter Frame 74"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/dejitter_00075.png" alt="Dejitter Frame 75"></div>
+          <div class="column"><img src="./static/images/MAPo/ablation_show/jitter_show/flame_salmon_frag3/new_crop/processed/dejitter_00076.png" alt="Dejitter Frame 76"></div>
+        </div>
       </div>
     </div>
   </div>
