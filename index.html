@@ -49,6 +49,27 @@
     background-clip: text;
     font-weight: bold;
   }
+  .publication-venue {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(50, 115, 220, 0.12), rgba(72, 199, 142, 0.12));
+    color: #1f4b99;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .publication-authors {
+    margin-top: 0.25rem;
+  }
+  .author-list {
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+    color: #363636;
+    font-weight: 500;
+  }
   </style>
 </head>
 <body>
@@ -65,8 +86,10 @@
             <span class="gradient-text">MAPo:</span> Motion-Aware Partitioning of Deformable 3D Gaussian Splatting for High-Fidelity Dynamic Scene Reconstruction
           </h1>
           <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <p>Anonymous AAAI Submission</p></span>
+            <div class="publication-venue">CVPR 2026</div>
+            <p class="author-list">
+              Han Jiao, Jiakai Sun, Yexing Xu, Lei Zhao, Wei Xing, Huaizhong Lin
+            </p>
           </div>
         </div>
       </div>
